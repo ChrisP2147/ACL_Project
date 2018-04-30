@@ -1,0 +1,204 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: Calibri, Arial, Helvetica, sans-serif;
+	text-align: center;
+	margin-top: 1em;
+}
+h1 {
+	color: #555555;
+	font-size: 1.5em;
+	padding-bottom: 0.5em;
+}
+h2 {
+	font-size: 1.3em;
+	padding-bottom: 10px;
+	color: #026693;
+}
+h3 {
+	color: red;
+	margin-top: 1em;
+}
+h4 {
+	color: #555555;
+}
+.frame {
+	margin: auto;
+	padding: 1em;
+	width: 40%;
+	background-color: #d2d5d8;
+	border-radius: 8px;
+}
+.btnContainer {
+	margin: 1.3em 0 1em 0;
+}
+label {
+	padding-right: 0.5em;
+}
+input[type='text'], input[type='password'] {
+	font-size: 0.8em;
+	color: #555555;
+	width: 60%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+}
+select {
+	font-size: 0.8em;
+	color: #555555;
+	width: 70%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+}
+.createRow {
+	display: flex;
+	margin: auto;
+}
+.labelTextFields {
+	width: 70%;
+	margin: 0 auto;
+	padding: 0.5em;
+}
+.button {
+	padding: 12px 28px;
+	display: inline;
+	background-color: #555555;
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 0.8em;
+	border-radius: 8px;
+  cursor: pointer;
+}
+.btnSuperUser {
+	margin-right: 1em;
+	padding: 12px 28px;
+	display: inline;
+	background-color: #555555;
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 0.8em;
+	border-radius: 8px;
+  cursor: pointer;
+}
+.permissionContainer {
+	display: flex;
+}
+.permission {
+	flex: 1;
+	padding: 12px;
+	margin: 2em 1em 2em 1em;
+	color: white;
+	background-color: #026693;
+	border-radius: 6px;
+	font-size: 0.8em;
+}
+.oneUser {
+	display: flex;
+}
+.userDetails {
+	flex: 1;
+	padding: 5px 8px 5px 8px;
+	margin: 10px 10px 10px 10px;
+	color: white;
+	font-size: 0.8em;
+	background-color: #026693;
+	border-radius: 4px;
+}
+.groupName {
+	flex: 2;
+	padding: 5px 8px 5px 8px;
+	margin: 10px 10px 10px 10px;
+	color: white;
+	font-size: 0.8em;
+	background-color: #026693;
+	border-radius: 4px;
+}
+.btnEdit {
+	color: white;
+	background-color: #555555;
+	border: none;
+	color: white;
+	text-align: center;
+	border-radius: 8px;
+	padding: 0.8em 1.5em 0.8em 1.5em;
+	margin: 0.8em;
+	font-size: 0.6em;
+  cursor: pointer;
+}
+@media screen and (min-width: 200px) and ( max-width: 1200px ) {
+.createRow {
+	display: block;
+}
+label {
+	display: none;
+}
+}
+@media screen and (min-width: 200px) and ( max-width: 900px ) {
+h1 {
+	font-size: 1.0em;
+	padding-bottom: 20px;
+}
+.oneUser {
+	display: block;
+}
+h2 {
+	font-size: 0.9em;
+	padding-bottom: 10px;
+}
+.frame {
+	padding: 1em;
+	width: 40%;
+	min-width: 300px;
+}
+.button, .btnSuperUser {
+	padding: 0.7em 1.2em;
+}
+.button:nth-of-type(1) {
+	margin-right: 0.7em;
+}
+.permissionContainer {
+	display: block;
+}
+.permission {
+	padding: 8px;
+	margin: 10px;
+	display: block;
+	color: white;
+}
+}
+@media screen and (min-width: 200px) and ( max-width: 500px ) {
+.btnContainer {
+	display: block;
+}
+.button, .btnSuperUser {
+	padding: 0.5em 1em;
+	font-size: 0.6em;
+}
+.button:nth-of-type(1) {
+	margin-right: 0.5em;
+}
+.frame {
+	overflow: hidden;
+	padding: 0.5em;
+	width: 40%;
+	min-width: 200px;
+}
+.permissionContainer {
+	display: block;
+}
+.permission {
+	padding: 0.2em;
+	margin: 0.3em;
+	display: block;
+	color: white;
+}
+}

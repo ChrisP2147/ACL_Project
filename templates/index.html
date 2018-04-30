@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>    
+    <meta charset="UTF-8">    
+    <title>Rechte vergeben</title>  
+    <link rel="stylesheet" href="design.css">
+  </head>
+  <body>
+{% set SELF = 'user_permissions.php'%}
+{# {% set test = 'das klappt' %} #}
+{# {{test| md5}}
+<br>
+{{test}}
+<br>
+{{ heute | date("m/d/Y") }}
+<br> #}
+
+{% if state == 'not_loggedIn' %}
+    <div class="frame">
+        <h1>Einloggen um Benutzerrechte zu verwalten</h1>
+            <form action={{SELF}} method='post'>
+            <div class="labelTextFields">
+                <label for="user">Benutzer:</label>          
+                <input type='text' name='user' placeholder="Benutzername.." size='20' autocomplete="off" /> 
+            </div>
+                <div class="labelTextFields">          
+                <label for="passwd">Passwort:</label>          
+                    <input type='password' name='passwd' placeholder="Passwort.." size='20' autocomplete="off" />
+                </div>
+            </div>
+            <div class="btnContainer">
+            <input type="submit" class="button" name="login" value="Einloggen" />
+            </div> 
+        </form>
+{% endif %}
+
+{% if state == 'logged_in' %}
+    <div class="frame"> 
+        <h1>Wilkommen {{SESSION_name}} {{SESSION_surname}}</h1>   
+            <h2>Du besitzt folgende rechte:</h2>                  
+        
+        <div class=permissionContainer>
+
+                {{permission_data | id_perm_function}}
+
+        </div>
+    </div>
+        <form action={{SELF}} method='post'>
+            <div class=btnContainer>   
+        {% if superUser == true %}
+            <input type="submit" class="btnSuperUser" name="manageUser" value="Benutzer Verwalten" />
+            <input type="submit" class="button" name="logout" value="Ausloggen" />
+        {% else %}
+            <input type="submit" class="button" name="logout" value="Ausloggen" />  
+        {% endif %}
+            </div>
+        </form>          
+{% endif %}
+
+{% if state == 'manage' %}
+        </div>
+            <div class="btnContainer">
+                <input type="submit" class="btnSuperUser" name="back" value="Zurück" />
+                <input type="submit" class="btnSuperUser" name="createUser" value="Benutzer anlegen" />
+                <input type="submit" class="button" name="logout" value="Ausloggen" />
+            </div>
+        </form> 
+{% endif %}
+
+{% if state == 'createUser' %}
+    <div class="frame">
+        <h1>Neuen Benutzer anlegen</h1> 
+            <form action={{SELF}} method='post'>
+                <div class="createRow">
+                <div class="labelTextFields">
+                    <h4>Nachname:</h4>            
+                    <input type="text" name="surname" placeholder="Nachname..." size="20" autocomplete="off" /> 
+                </div>
+                <div class="labelTextFields">          
+                    <h4>Vorname:</h4>          
+                    <input type='text' name='firstname' placeholder="Vorname..." size='20' autocomplete="off" />
+                </div>
+                </div>
+                <div class="createRow">
+                <div class="labelTextFields">
+                    <h4>Benutzer:</h4>          
+                    <input type='text' name='user' placeholder="Benutzername..." size='20' autocomplete="off" /> 
+                </div>
+                <div class="labelTextFields">          
+                    <h4>Passwort:</h4>          
+                    <input type='password' name='passwd' placeholder="Passwort..." size='20' autocomplete="off" />
+                </div>
+                </div>
+                <div class="createRow">
+                <div class="labelTextFields">          
+                    <h4>Passwort wiederholen:</h4>          
+                    <input type='password' name='passwdRepeat' placeholder="Passwort wiederholen..." size='20' autocomplete="off" />
+                </div>
+                <div class="labelTextFields">          
+                    <h4>Gruppe:</h4>          
+                    <select name="group">
+                        <option value="1">Geschäftsleitung</option>
+                        <option value="2">Mitarbeiter</option>
+                        <option value="3">Besucher</option>
+                        <option value="4">Praktikanten</option>
+                        <option value="5">Admin</option>
+                    </select>
+                </div>
+            </div>
+    </div>
+            <div class="btnContainer">
+                <input type="submit" class="btnSuperUser" name="back2" value="Zurück" />
+                <input type="submit" class="btnSuperUser" name="saveNewUser" value="Speichern" />
+                <input type="submit" class="button" name="logout" value="Ausloggen" />
+            </div>
+            </form>
+{% endif %}
+
+{% if state == 'editUser' %}
+    <div class="frame">
+        <h1>Benutzerdaten ändern</h1> 
+            <form action={{SELF}} method='post'>
+            <div class="createRow">
+            <div class="labelTextFields">
+                <h4>Nachname:</h4>            
+                <input type="text" name="surname" value={{surname}} size='20' autocomplete="off" /> 
+            </div>
+            <div class="labelTextFields">          
+                <h4>Vorname:</h4>          
+                <input type='text' name='firstname' value={{firstname}} size='20' autocomplete="off" />
+            </div>
+            </div>
+            <div class="createRow">
+            <div class="labelTextFields">
+                <h4>Benutzer:</h4>          
+                <input type='text' name='user' value={{username}} size='20' autocomplete="off" /> 
+            </div>
+            <div class="labelTextFields">          
+                <h4>Passwort:</h4>          
+                <input type='password' name='passwd' value={{passwd}} size='20' autocomplete="off" />
+            </div>
+            </div>
+            <div class="createRow">
+                <div class="labelTextFields">          
+                    <h4>Passwort wiederholen:</h4>          
+                    <input type='password' name='passwdRepeat' value={{passwd}} size='20' autocomplete="off" />
+                </div>
+                <div class="labelTextFields">          
+                    <h4>Gruppe:</h4>                        
+                    <select name="group">
+                        <option {% if id_group == '1'%} selected {% endif %} value="1">Geschäftsleitung</option>
+                        <option {% if id_group == '2'%} selected {% endif %} value="2">Mitarbeiter</option>
+                        <option {% if id_group == '3'%} selected {% endif %} value="3">Besucher</option>
+                        <option {% if id_group == '4'%} selected {% endif %} value="4">Praktikanten</option>
+                        <option {% if id_group == '5'%} selected {% endif %} value="5">Admin</option>
+                    </select>
+                </div>
+            </div>
+    </div>
+                <div class="btnContainer">
+                    <input type="submit" class="btnSuperUser" name="back2" value="Zurück" />
+                    <input type="submit" class="btnSuperUser" name="saveUser" value="Speichern" />
+                    <input type="submit" class="btnSuperUser" name="deleteUser" value="Benutzer löschen" />
+                    <input type="submit" class="button" name="logout" value="Ausloggen" />
+                </div>
+                </form>      
+{% endif %}
+
+{% if state == 'editUserWrong' %}
+    <div class="frame">
+            <h1>Benutzerdaten ändern</h1> 
+                <form action={{SELF}} method='post'>
+                <div class="createRow">
+                <div class="labelTextFields">
+                    <h4>Nachname:</h4>            
+                    <input type="text" name="surname" value={{surname}} size='20' autocomplete="off" /> 
+                </div>
+                <div class="labelTextFields">          
+                    <h4>Vorname:</h4>          
+                    <input type='text' name='firstname' value={{firstname}} size='20' autocomplete="off" />
+                </div>
+                </div>
+                <div class="createRow">
+                <div class="labelTextFields">
+                    <h4>Benutzer:</h4>          
+                    <input type='text' name='user' value={{username}} size='20' autocomplete="off" /> 
+                </div>
+                <div class="labelTextFields">          
+                    <h4>Passwort:</h4>          
+                    <input type='password' name='passwd' value={{passwd}} size='20' autocomplete="off" />
+                </div>
+                </div>
+                <div class="createRow">
+                    <div class="labelTextFields">          
+                        <h4>Passwort wiederholen:</h4>          
+                        <input type='password' name='passwdRepeat' value="" size='20' autocomplete="off" />
+                    </div>
+                    <div class="labelTextFields">          
+                        <h4>Gruppe:</h4>                        
+                        <select name="group">
+                            <option {% if id_group == '1'%} selected {% endif %} value="1">Geschäftsleitung</option>
+                            <option {% if id_group == '2'%} selected {% endif %} value="2">Mitarbeiter</option>
+                            <option {% if id_group == '3'%} selected {% endif %} value="3">Besucher</option>
+                            <option {% if id_group == '4'%} selected {% endif %} value="4">Praktikanten</option>
+                            <option {% if id_group == '5'%} selected {% endif %} value="5">Admin</option>
+                        </select>
+                    </div>
+                </div>
+        </div>
+                    <div class="btnContainer">
+                        <input type="submit" class="btnSuperUser" name="back2" value="Zurück" />
+                        {% if button_check %}
+                            <input type="submit" class="btnSuperUser" name="saveNewUser" value="Speichern" />
+                        {% else %}
+                            <input type="submit" class="btnSuperUser" name="saveUser" value="Speichern" />
+                        {% endif %}
+                        <input type="submit" class="btnSuperUser" name="deleteUser" value="Benutzer löschen" />
+                        <input type="submit" class="button" name="logout" value="Ausloggen" />
+                    </div>
+                    </form>
+                    <h3>Passwort stimmt nicht überein</h3>      
+{% endif %}
+
+{% if state == 'wrongUser' %}
+    <div class="frame">
+        <h1>Einloggen um Benutzerrechte zu verwalten</h1>
+            <form action={{SELF}} method='post'>
+            <div class="labelTextFields">
+                <label for="user">Benutzer:</label>          
+                <input type='text' name='user' placeholder="Benutzername.." size='20' autocomplete="off" /> 
+            </div>
+                <div class="labelTextFields">          
+                <label for="passwd">Passwort:</label>          
+                    <input type='password' name='passwd' placeholder="Passwort.." size='20' autocomplete="off" />
+                </div>
+            </div>
+            <div class="btnContainer">
+            <input type="submit" class="button" name="login" value="Einloggen" />
+            </div> 
+        </form>
+        <h3>Benutzername / Passwort falsch</h3>
+{% endif %}
+
+{% if state == 'dataSaved' %}
+<div class="frame">   
+        <h1>Der Benutzer {{firstname}} {{surname}} wurde erfolgreich gespeichert</h1>  
+          <form action={{SELF}} method='post'>
+            <div class="btnContainer">
+              <input type="submit" class="btnSuperUser" name="back2" value="Zurück" />
+              <input type="submit" class="btnSuperUser" name="createUser" value="Benutzer anlegen" />
+              <input type="submit" class="button" name="logout" value="Ausloggen" />
+            </div>
+          </form>
+{% endif %}
+
+{% if state == 'userDeleted' %}
+    <div class="frame">   
+        <h1>Nutzer {{firstname}} {{surname}} wurde erfolgreich gelöscht</h1>  
+        <form action={{SELF}} method='post'>
+            <div class="btnContainer">
+            <input type="submit" class="btnSuperUser" name="back2" value="Zurück" />
+            <input type="submit" class="btnSuperUser" name="createUser" value="Benutzer anlegen" />
+            <input type="submit" class="button" name="logout" value="Ausloggen" />
+            </div>
+        </form> 
+{% endif %}
+
+</body>
+</html>
